@@ -57,9 +57,9 @@ model Category {
   name        String
   description String?
   status      String    @default("Active")
+  imageUrl    String?   // Supabase image URL will be stored here
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  //image     
 
   // Self-relation for subcategories
   parentId String?     @db.ObjectId
@@ -71,6 +71,7 @@ model Category {
 
   @@map("categories")
 }
+
 
 model Customer {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId

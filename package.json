@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "nodemon Api/index.js",
     "start": "node Api/index.js",
-    "prisma": "prisma"
+    "prisma": "prisma",
+    "setup-db": "node setup-db.js",
+    "db:push": "npx prisma db push",
+    "db:generate": "npx prisma generate",
+    "db:studio": "npx prisma studio"
   },
   "dependencies": {
     "@prisma/client": "^5.0.0",

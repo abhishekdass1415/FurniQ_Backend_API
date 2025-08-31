@@ -2,10 +2,17 @@ import prisma from "../config/prismaConfig.js";
 
 export const getProducts = async (req, res) => {
 	try {
+		console.log('Fetching products...');
 		const products = await prisma.product.findMany();
+		console.log(`Found ${products.length} products`);
 		res.json(products);
 	} catch (err) {
-		res.status(500).json({ error: "Something went wrong" });
+		console.error('Error fetching products:', err);
+		res.status(500).json({ 
+			error: "Failed to fetch products", 
+			message: err.message,
+			details: process.env.NODE_ENV === 'development' ? err.stack : undefined
+		});
 	}
 };
 
@@ -21,10 +28,16 @@ export const getProductById = async (req, res) => {
 
 export const createProduct = async (req, res) => {
 	try {
+		console.log('Creating product with data:', req.body);
 		const newProduct = await prisma.product.create({ data: req.body });
 		res.status(201).json(newProduct);
 	} catch (err) {
-		res.status(500).json({ error: "Something went wrong" });
+		console.error('Error creating product:', err);
+		res.status(500).json({ 
+			error: "Failed to create product", 
+			message: err.message,
+			details: process.env.NODE_ENV === 'development' ? err.stack : undefined
+		});
 	}
 };
 
