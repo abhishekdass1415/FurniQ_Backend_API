@@ -4,7 +4,6 @@ import cors from "cors";
 
 import authRoutes from "./routes/authRoute.js";
 import userRoutes from "./routes/userRoute.js";
-import resdRoutes from "./routes/resdRoutes.js";
 import categoryRoutes from "./routes/categoryRoute.js";
 import customerRoutes from "./routes/customerRoute.js";
 import inventoryRoutes from "./routes/inventoryRoute.js";
@@ -69,7 +68,6 @@ app.get("/api/test-db", async (req, res) => {
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/resources", resdRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/customers", customerRoutes);
 app.use("/api/inventories", inventoryRoutes);

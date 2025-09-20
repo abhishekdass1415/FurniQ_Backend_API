@@ -22,6 +22,7 @@ model User {
   inventoryLogs InventoryLog[]
 
   @@map("users")
+  
 }
 
 model Product {

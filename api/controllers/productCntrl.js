@@ -29,7 +29,45 @@ export const getProductById = async (req, res) => {
 export const createProduct = async (req, res) => {
 	try {
 		console.log('Creating product with data:', req.body);
-		const newProduct = await prisma.product.create({ data: req.body });
+		
+		// If category name is provided, find the category ID
+		let categoryId = req.body.categoryId;
+		if (req.body.category && !categoryId) {
+			const category = await prisma.category.findFirst({ 
+				where: { name: req.body.category } 
+			});
+			if (category) {
+				categoryId = category.id;
+			}
+		}
+		
+		// If subcategory name is provided, find the subcategory ID and use it as categoryId
+		if (req.body.subcategory && !categoryId) {
+			const subcategory = await prisma.category.findFirst({ 
+				where: { name: req.body.subcategory } 
+			});
+			if (subcategory) {
+				categoryId = subcategory.id;
+			}
+		}
+		
+		// Prepare product data - only include valid Prisma fields
+		const productData = {
+			name: req.body.name,
+			description: req.body.description,
+			sku: req.body.sku,
+			price: parseFloat(req.body.price) || 0,
+			stock: parseInt(req.body.stock) || 0,
+			lowStock: parseInt(req.body.lowStock) || 5,
+			imageUrl: req.body.imageUrl,
+			brand: req.body.brand,
+			color: req.body.color,
+			material: req.body.material,
+			warranty: req.body.warranty,
+			categoryId: categoryId
+		};
+		
+		const newProduct = await prisma.product.create({ data: productData });
 		res.status(201).json(newProduct);
 	} catch (err) {
 		console.error('Error creating product:', err);
